@@ -12,6 +12,7 @@ interface DataType {
     priority: string;
     color: string;
     createdDate : string;
+    category : string;
   }
 
 interface TaskFormProps {
@@ -73,6 +74,22 @@ const TaskForm = (props : TaskFormProps) => {
             <Input />
         </Form.Item>
 
+        <Form.Item name="category" label="Catgeory" rules={[
+            {
+                required : true,
+            message : 'Please select the category'
+            }
+        ]}>
+            <Select>
+            <Select.Option value="Completed">Documentation</Select.Option>
+                <Select.Option value="Workout">Workout</Select.Option>
+                <Select.Option value="Education">Education</Select.Option>
+                <Select.Option value="Meditation">Meditation</Select.Option>
+                <Select.Option value="Personal">Personal</Select.Option>
+               
+            </Select>
+        </Form.Item>
+
         <Form.Item name="status" label="Status" rules={[
             {
                 required : true,
@@ -80,8 +97,8 @@ const TaskForm = (props : TaskFormProps) => {
             }
         ]}>
             <Select>
-                <Select.Option value="Completed">Completed</Select.Option>
-                <Select.Option value="Pending">Pending</Select.Option>
+            <Select.Option value="Completed">Completed</Select.Option>
+            <Select.Option value="Pending">Pending</Select.Option>
             </Select>
         </Form.Item>
 

@@ -20,6 +20,7 @@ const allTasks : DataType[] = [
     description: "Complete the project documentation",
     color: "blue",
     priority: "high",
+    category : "Documentation",
     createdDate: "2025-01-17",
   },
   {
@@ -29,6 +30,7 @@ const allTasks : DataType[] = [
     description: "Fix bugs in the login module",
     color: "green",
     priority: "medium",
+    category : "Personal",
     createdDate: "2025-01-15",
   },
   {
@@ -38,6 +40,7 @@ const allTasks : DataType[] = [
     description: "Design the new landing page",
     color: "yellow",
     priority: "low",
+    category : "Coding",
     createdDate: "2025-01-18",
   },
   {
@@ -47,6 +50,7 @@ const allTasks : DataType[] = [
     description: "Update the user profile feature",
     color: "purple",
     priority: "medium",
+    category : "Documentation",
     createdDate: "2025-01-18",
   },
   {
@@ -56,6 +60,7 @@ const allTasks : DataType[] = [
     description: "Implement the payment gateway",
     color: "orange",
     priority: "high",
+    category : "Workout",
     createdDate: "2025-01-18",
   },
 ];
@@ -74,6 +79,7 @@ interface DataType {
   priority: string;
   color: string;
   createdDate: string;
+  category : string;
 }
 
 const TaskList = () => {
@@ -87,6 +93,11 @@ const TaskList = () => {
       title: "Description",
       dataIndex: "description",
       key: "description",
+    },
+    {
+      title: "Category",
+      dataIndex: "category",
+      key: "category",
     },
     {
       title: "Status",
@@ -158,7 +169,7 @@ const TaskList = () => {
       return;
     }
 
-    values.key = tasks.length + 1;
+    values.key = allTasks.length + 1;
     setTasks([...tasks, values]);
     handleShowToast("Task added successfully", "success");
     setSelectedTask(null);
