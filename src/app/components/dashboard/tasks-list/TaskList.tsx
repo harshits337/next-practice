@@ -9,7 +9,7 @@ import React, { useState } from "react";
 import Toast from "../../common/toast/Toast";
 
 interface DataType {
-  key: number;
+  key?: number;
   title: string;
   status: string;
   description: string;
@@ -17,9 +17,7 @@ interface DataType {
   color: string;
 }
 
-
 const TaskList = () => {
-
   const columns: TableProps<DataType>["columns"] = [
     {
       title: "Title",
@@ -68,18 +66,21 @@ const TaskList = () => {
   const [openModal, setOpenModal] = useState(false);
   const [toast, setToast] = useState({
     show: false,
-    message: '',
-    type: 'info' as 'success' | 'error' | 'info'
+    message: "",
+    type: "info" as "success" | "error" | "info",
   });
 
-  const handleShowToast = (message: string, type: 'success' | 'error' | 'info') => {
+  const handleShowToast = (
+    message: string,
+    type: "success" | "error" | "info"
+  ) => {
     setToast({ show: true, message, type });
   };
 
   const handleCloseToast = () => {
     setToast({ ...toast, show: false });
   };
-  const [selectedTask, setSelectedTask] = useState<any>({});
+  const [selectedTask, setSelectedTask] = useState<DataType | null>(null);
 
   const handleSubmit = (values: DataType) => {
     console.log(values);
@@ -92,17 +93,16 @@ const TaskList = () => {
         return tasks;
       });
       setTasks(newTasks);
-     
-      handleShowToast('Task updated successfully', 'success');
-      setSelectedTask({});
+
+      handleShowToast("Task updated successfully", "success");
+      setSelectedTask(null);
       return;
     }
 
     values.key = tasks.length + 1;
     setTasks([...tasks, values]);
-    handleShowToast('Task added successfully', 'success');
-    setSelectedTask({});
-    
+    handleShowToast("Task added successfully", "success");
+    setSelectedTask(null);
   };
 
   const handleEdit = (record: DataType) => {
@@ -116,7 +116,7 @@ const TaskList = () => {
     console.log(record);
     const newTasks = tasks.filter((task) => task.key !== record.key);
     setTasks(newTasks);
-    handleShowToast('Task deleted successfully', 'success');
+    handleShowToast("Task deleted successfully", "success");
   };
   const [tasks, setTasks] = useState<DataType[]>([
     {
@@ -162,7 +162,7 @@ const TaskList = () => {
   ]);
   return (
     <div className={styles.wrapper}>
-        {toast.show && (
+      {toast.show && (
         <Toast
           message={toast.message}
           type={toast.type}
@@ -171,40 +171,22 @@ const TaskList = () => {
       )}
       <div className={styles.addBtn}>
         {" "}
-        <Button type="primary" onClick={() => {
+        <Button
+          type="primary"
+          onClick={() => {
             setOpenModal(true);
-            setSelectedTask({});
-        }}>
+            setSelectedTask(null);
+          }}
+        >
           {" "}
           <PlusOutlined /> Add Task
         </Button>
       </div>
-      {/* <div className={styles.title}>Here is your tasks for today</div>
-            <div className={styles.container}>
-                {tasks.map((task,index)=>{
-                    return(
-                        <div key={index} className={styles.taskCard}>
-                            <div className={styles.infoContainer}>
-                                <div className={styles.title}>{task.name}</div>
-                                <div className={styles.statusContainer}>
-                                    <span className={styles.priority}>{task.priority}</span>
-                                    <span className={styles.status}>{task.status}</span>
-                                </div>
-                            </div>
-                            <div className={styles.description}>{task.description}</div>
-                           
-                        </div>
-                    )
-                })}
-            </div> */}
-
       <Table<DataType>
         columns={columns}
         dataSource={tasks}
         style={{ width: " 100%" }}
       />
-
-      {/* <TaskForm/> */}
 
       <Modal
         title="Add Task"
@@ -212,7 +194,10 @@ const TaskList = () => {
         footer={false}
         onCancel={() => setOpenModal(false)}
       >
-        <TaskForm open={openModal} handleSubmit={handleSubmit} task={selectedTask} />
+        <TaskForm
+          handleSubmit={handleSubmit}
+          task={selectedTask}
+        />
       </Modal>
     </div>
   );

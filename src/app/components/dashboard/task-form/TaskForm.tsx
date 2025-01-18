@@ -3,10 +3,24 @@ import {  Button, Form, Input, Select } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import styles from './taskForm.module.css'
 import { useEffect } from 'react';
-const TaskForm = (props : any) => {
+
+interface DataType {
+    key?: number;
+    title: string;
+    status: string;
+    description: string;
+    priority: string;
+    color: string;
+  }
+
+interface TaskFormProps {
+    task : DataType | null;
+    handleSubmit : (values : DataType) => void;
+}
+const TaskForm = (props : TaskFormProps) => {
     console.log('props', props);
     const [form] = useForm();
-    const onFinsh = (values: any) => {
+    const onFinsh = (values: DataType) => {
         console.log('Received values of form: ', values);
         props.handleSubmit(values);
         form.resetFields();
@@ -15,7 +29,7 @@ const TaskForm = (props : any) => {
 
     useEffect(() => {
         console.log('props.task', props.task);
-        if(Object.keys(props.task).length > 0){
+        if(props.task && Object.keys(props?.task).length > 0){
             form.setFieldsValue(props.task);
         } else{
             form.resetFields();
@@ -29,7 +43,7 @@ const TaskForm = (props : any) => {
         name='task-form'
         layout='vertical'
         onFinish={onFinsh}
-        initialValues={props.task}
+        initialValues={props.task ? props.task : {}}
     >
 
         <Form.Item name="title" label="Title" rules={[
