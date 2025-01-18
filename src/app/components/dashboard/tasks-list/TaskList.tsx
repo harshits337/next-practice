@@ -16,55 +16,85 @@ interface DataType {
   color: string;
 }
 
-const columns: TableProps<DataType>["columns"] = [
-  {
-    title: "Title",
-    dataIndex: "title",
-    key: "title",
-  },
-  {
-    title: "Description",
-    dataIndex: "description",
-    key: "description",
-  },
-  {
-    title: "Status",
-    dataIndex: "status",
-    render: (status: string) => {
-      const color: string = status === "Completed" ? "green" : "red";
-      return <Tag color={color}>{status}</Tag>;
-    },
-  },
-  {
-    title: "Priority",
-    dataIndex: "priority",
-    render: (priority: string) => {
-      const color: string =
-        priority === "high" ? "red" : priority === "medium" ? "blue" : "green";
-      return <Tag color={color}>{priority}</Tag>;
-    },
-  },
 
-  {
-    title: "Action",
-    key: "action",
-    render: () => (
-      <Space size="middle">
-        <EditOutlined />
-        <DeleteOutlined />
-      </Space>
-    ),
-  },
-];
 const TaskList = () => {
+    const columns: TableProps<DataType>["columns"] = [
+        {
+          title: "Title",
+          dataIndex: "title",
+          key: "title",
+        },
+        {
+          title: "Description",
+          dataIndex: "description",
+          key: "description",
+        },
+        {
+          title: "Status",
+          dataIndex: "status",
+          render: (status: string) => {
+            const color: string = status === "Completed" ? "green" : "red";
+            return <Tag color={color}>{status}</Tag>;
+          },
+        },
+        {
+          title: "Priority",
+          dataIndex: "priority",
+          render: (priority: string) => {
+            const color: string =
+              priority === "high" ? "red" : priority === "medium" ? "blue" : "green";
+            return <Tag color={color}>{priority}</Tag>;
+          },
+        },
+      
+        {
+          title: "Action",
+          key: "action",
+          render: (_,record ) => (
+            <Space size="middle">
+              <EditOutlined  onClick={() => handleEdit(record)}/>
+              <DeleteOutlined onClick={() => handleDelete(record)}/>
+            </Space>
+          ),
+        },
+      ];
 
     const [openModal, setOpenModal] = useState(false);
+    const [selectedTask,setSelectedTask] = useState<any>({});
 
     const handleSubmit = (values: DataType) => {
         console.log(values);
         setOpenModal(false);
+        if(selectedTask && selectedTask.key){
+            const newTasks = tasks.map(tasks=>{
+                if(tasks.key === selectedTask.key){
+                    return {...tasks, ...values}
+                }
+                return tasks;
+            })
+            setTasks(newTasks);
+            return; 
+        }
+
         values.key = tasks.length + 1;
         setTasks([...tasks, values]);
+        setSelectedTask({});
+    }
+
+    const handleEdit = (record: DataType) => {
+        console.log(record);
+        
+       
+        setSelectedTask(record);
+        setOpenModal(true);
+
+        
+    }
+
+    const handleDelete = (record: DataType) => {
+        console.log(record);
+        const newTasks = tasks.filter((task) => task.key !== record.key);
+        setTasks(newTasks);
     }
   const [tasks, setTasks] = useState<DataType[]>([
     {
@@ -134,8 +164,8 @@ const TaskList = () => {
 
       {/* <TaskForm/> */}
 
-        <Modal title="Add Task" open={openModal} footer={false} onClose={() => setOpenModal(false)}>
-            <TaskForm handleSubmit={handleSubmit} />
+        <Modal title="Add Task" open={openModal} footer={false} onCancel={() => setOpenModal(false)}>
+            <TaskForm handleSubmit={handleSubmit} task={selectedTask}/>
             </Modal>
     </div>
   );

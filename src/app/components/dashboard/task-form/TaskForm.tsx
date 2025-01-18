@@ -2,7 +2,9 @@
 import {  Button, Form, Input, Select } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import styles from './taskForm.module.css'
+import { useEffect } from 'react';
 const TaskForm = (props : any) => {
+    console.log('props', props);
     const [form] = useForm();
     const onFinsh = (values: any) => {
         console.log('Received values of form: ', values);
@@ -10,6 +12,10 @@ const TaskForm = (props : any) => {
         form.resetFields();
 
     }
+
+    useEffect(() => {
+        form.setFieldsValue(props.task);
+    }, [props.task, form]);
   return (
   
     <div className={styles.formWrapper}>
@@ -18,6 +24,7 @@ const TaskForm = (props : any) => {
         name='task-form'
         layout='vertical'
         onFinish={onFinsh}
+        initialValues={props.task}
     >
 
         <Form.Item name="title" label="Title" rules={[
@@ -26,8 +33,8 @@ const TaskForm = (props : any) => {
             message : 'Please input the title'
             },
             {
-                max : 15,
-                message : 'Title must be max 15 characters'
+                max : 100,
+                message : 'Title must be max 45 characters'
             }
         ]}>
             <Input />
