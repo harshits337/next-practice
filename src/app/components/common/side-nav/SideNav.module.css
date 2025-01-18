@@ -6,13 +6,23 @@
     align-items: center;
 }
 
-.nav a {
-    width: 90%;
+.linkContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.linkContainer a {
+    width: 80%;
+
 }
 
 .links {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     width: 100%;
@@ -21,6 +31,12 @@
     padding: 10px;
     border-radius: 10px;
     color: #fff;
+    cursor: pointer;
+
+}
+
+.links svg {
+    margin-right: 10px;
 }
 
 .logout {
@@ -31,3 +47,9 @@
     text-align: center;
     padding-top: 10px;
 }
+
+.logout svg {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
