@@ -14,8 +14,13 @@ const TaskForm = (props : any) => {
     }
 
     useEffect(() => {
-        form.setFieldsValue(props.task);
-    }, [props.task, form]);
+        console.log('props.task', props.task);
+        if(Object.keys(props.task).length > 0){
+            form.setFieldsValue(props.task);
+        } else{
+            form.resetFields();
+        }
+    }, [props.task,form]);
   return (
   
     <div className={styles.formWrapper}>
