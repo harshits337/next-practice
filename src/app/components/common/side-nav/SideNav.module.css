@@ -1,0 +1,33 @@
+.nav{
+
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nav a {
+    width: 90%;
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+    background-color: #5577FF;
+    padding: 10px;
+    border-radius: 10px;
+    color: #fff;
+}
+
+.logout {
+    position: absolute;
+    bottom: 2%;
+    width: 100%;
+    border-top: 1px solid #E6E4F0;
+    text-align: center;
+    padding-top: 10px;
+}
