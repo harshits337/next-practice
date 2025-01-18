@@ -16,7 +16,7 @@
 .addBtn {
     display: flex;
         width: 100%;
-        justify-content: flex-end;
+        justify-content: space-between;
         margin: 10px 0px;
 }
 

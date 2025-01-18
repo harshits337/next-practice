@@ -7,6 +7,64 @@ import TaskForm from "../task-form/TaskForm";
 import { Modal } from "antd";
 import React, { useState } from "react";
 import Toast from "../../common/toast/Toast";
+import { DatePicker } from "antd";
+import type { DatePickerProps } from "antd";
+import {Dayjs} from "dayjs";
+import dayjs from "dayjs";
+
+const allTasks : DataType[] = [
+  {
+    key: 1,
+    title: "Complete Documentation",
+    status: "Completed",
+    description: "Complete the project documentation",
+    color: "blue",
+    priority: "high",
+    createdDate: "2025-01-17",
+  },
+  {
+    key: 2,
+    title: "Fix Login Bugs",
+    status: "Not completed",
+    description: "Fix bugs in the login module",
+    color: "green",
+    priority: "medium",
+    createdDate: "2025-01-15",
+  },
+  {
+    key: 3,
+    title: "Design Landing Page",
+    status: "Not completed",
+    description: "Design the new landing page",
+    color: "yellow",
+    priority: "low",
+    createdDate: "2025-01-18",
+  },
+  {
+    key: 4,
+    title: "Update User Profile",
+    status: "Completed",
+    description: "Update the user profile feature",
+    color: "purple",
+    priority: "medium",
+    createdDate: "2025-01-18",
+  },
+  {
+    key: 5,
+    title: "Implement Payment Gateway",
+    status: "Not completed",
+    description: "Implement the payment gateway",
+    color: "orange",
+    priority: "high",
+    createdDate: "2025-01-18",
+  },
+];
+
+
+
+const defaultDate = [
+  dayjs(new Date().toISOString()),
+];
 
 interface DataType {
   key?: number;
@@ -15,6 +73,7 @@ interface DataType {
   description: string;
   priority: string;
   color: string;
+  createdDate: string;
 }
 
 const TaskList = () => {
@@ -114,52 +173,22 @@ const TaskList = () => {
 
   const handleDelete = (record: DataType) => {
     console.log(record);
-    const newTasks = tasks.filter((task) => task.key !== record.key);
+    const newTasks = allTasks.filter((task) => {
+      return task.key !== record.key && task.createdDate === record.createdDate;
+    });
     setTasks(newTasks);
     handleShowToast("Task deleted successfully", "success");
   };
-  const [tasks, setTasks] = useState<DataType[]>([
-    {
-      key: 1,
-      title: "Complete Documentation",
-      status: "Completed",
-      description: "Complete the project documentation",
-      color: "blue",
-      priority: "high",
-    },
-    {
-      key: 2,
-      title: "Fix Login Bugs",
-      status: "Not completed",
-      description: "Fix bugs in the login module",
-      color: "green",
-      priority: "medium",
-    },
-    {
-      key: 3,
-      title: "Design Landing Page",
-      status: "Not completed",
-      description: "Design the new landing page",
-      color: "yellow",
-      priority: "low",
-    },
-    {
-      key: 4,
-      title: "Update User Profile",
-      status: "Completed",
-      description: "Update the user profile feature",
-      color: "purple",
-      priority: "medium",
-    },
-    {
-      key: 5,
-      title: "Implement Payment Gateway",
-      status: "Not completed",
-      description: "Implement the payment gateway",
-      color: "orange",
-      priority: "high",
-    },
-  ]);
+
+  const onDateChange: DatePickerProps<Dayjs[]>["onChange"] = (date, dateString) => {
+  console.log( dateString);
+
+  const newTasks = allTasks.filter((task) => task.createdDate === dateString);
+  setTasks(newTasks);
+
+  
+};
+  const [tasks, setTasks] = useState<DataType[]>(allTasks.filter((task) => task.createdDate === defaultDate[0].format("YYYY-MM-DD")));
   return (
     <div className={styles.wrapper}>
       {toast.show && (
@@ -170,7 +199,12 @@ const TaskList = () => {
         />
       )}
       <div className={styles.addBtn}>
-        {" "}
+        <DatePicker
+          onChange={onDateChange}
+          maxTagCount="responsive"
+          defaultValue={defaultDate}
+          size="small"
+        />
         <Button
           type="primary"
           onClick={() => {
@@ -194,10 +228,7 @@ const TaskList = () => {
         footer={false}
         onCancel={() => setOpenModal(false)}
       >
-        <TaskForm
-          handleSubmit={handleSubmit}
-          task={selectedTask}
-        />
+        <TaskForm handleSubmit={handleSubmit} task={selectedTask} />
       </Modal>
     </div>
   );
