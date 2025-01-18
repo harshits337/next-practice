@@ -1,118 +1,117 @@
-'use client';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import styles from './tasks.module.css'
-import { Space, Table, Tag } from 'antd';
-import type { TableProps } from 'antd';
+"use client";
+import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
+import styles from "./tasks.module.css";
+import { Button, Space, Table, Tag } from "antd";
+import type { TableProps } from "antd";
+import TaskForm from "../task-form/TaskForm";
+import { Modal } from "antd";
+import { useState } from "react";
 
 interface DataType {
-    key: number;
-    title: string;
-    status: string;
-    description: string;
-    priority : string;
-    color: string;
+  key: number;
+  title: string;
+  status: string;
+  description: string;
+  priority: string;
+  color: string;
+}
 
-  }
+const columns: TableProps<DataType>["columns"] = [
+  {
+    title: "Title",
+    dataIndex: "title",
+    key: "title",
+  },
+  {
+    title: "Description",
+    dataIndex: "description",
+    key: "description",
+  },
+  {
+    title: "Status",
+    dataIndex: "status",
+    render: (status: string) => {
+      const color: string = status === "Completed" ? "green" : "red";
+      return <Tag color={color}>{status}</Tag>;
+    },
+  },
+  {
+    title: "Priority",
+    dataIndex: "priority",
+    render: (priority: string) => {
+      const color: string =
+        priority === "high" ? "red" : priority === "medium" ? "blue" : "green";
+      return <Tag color={color}>{priority}</Tag>;
+    },
+  },
 
-  const columns: TableProps<DataType>['columns'] = [
-    {
-      title: 'Title',
-      dataIndex: 'title',
-      key: 'title',
-    },
-    {
-        title: 'Description',
-        dataIndex: 'description',
-        key: 'description',
-      },
-      {
-        title: 'Status',
-        dataIndex: 'status',
-        render: (status : string) => {
-            const color : string = status === 'Completed' ? 'green' : 'red';
-            return (
-                <Tag color={color}>
-                    {status}
-                </Tag>
-            );
-        },
-      },
-      {
-        title: 'Priority',
-        dataIndex: 'priority',
-        render : (priority : string) => {
-            const color : string = priority === 'high' ? 'red' : priority === 'medium' ? 'blue' : 'green';
-            return (
-                <Tag color={color}>
-                    {priority}
-                </Tag>
-            );
-        }
-      },
-  
-   
-    {
-      title: 'Action',
-      key: 'action',
-      render: () => (
-        <Space size="middle">
-            <EditOutlined />
-            <DeleteOutlined />
-        </Space>
-      ),
-    },
-  ];
+  {
+    title: "Action",
+    key: "action",
+    render: () => (
+      <Space size="middle">
+        <EditOutlined />
+        <DeleteOutlined />
+      </Space>
+    ),
+  },
+];
 const TaskList = () => {
-    const tasks : DataType[] = [
-        {
-            key: 1,
-            title: "Complete Documentation",
-            status: "Completed",
-            description: "Complete the project documentation",
-            color: "blue",
-            priority: "high",
-           
-        },
-        {
-            key: 2,
-            title: "Fix Login Bugs",
-            status: "Not completed",
-            description: "Fix bugs in the login module",
-            color: "green",
-            priority: "medium",
-            
-        },
-        {
-            key: 3,
-            title: "Design Landing Page",
-            status: "Not completed",
-            description: "Design the new landing page",
-            color: "yellow",
-            priority: "low",
-            
-        },
-        {
-            key: 4,
-            title: "Update User Profile",
-            status: "Completed",
-            description: "Update the user profile feature",
-            color: "purple",
-            priority: "medium",
-           
-        },
-        {
-            key: 5,
-            title: "Implement Payment Gateway",
-            status: "Not completed",
-            description: "Implement the payment gateway",
-            color: "orange",
-            priority: "high",
-            
-        }
-    ];
-    return (
-        <div className={styles.wrapper}>
-            {/* <div className={styles.title}>Here is your tasks for today</div>
+
+    const [openModal, setOpenModal] = useState(false);
+
+    const handleSubmit = (values: DataType) => {
+        console.log(values);
+        setOpenModal(false);
+        values.key = tasks.length + 1;
+        setTasks([...tasks, values]);
+    }
+  const [tasks, setTasks] = useState<DataType[]>([
+    {
+      key: 1,
+      title: "Complete Documentation",
+      status: "Completed",
+      description: "Complete the project documentation",
+      color: "blue",
+      priority: "high",
+    },
+    {
+      key: 2,
+      title: "Fix Login Bugs",
+      status: "Not completed",
+      description: "Fix bugs in the login module",
+      color: "green",
+      priority: "medium",
+    },
+    {
+      key: 3,
+      title: "Design Landing Page",
+      status: "Not completed",
+      description: "Design the new landing page",
+      color: "yellow",
+      priority: "low",
+    },
+    {
+      key: 4,
+      title: "Update User Profile",
+      status: "Completed",
+      description: "Update the user profile feature",
+      color: "purple",
+      priority: "medium",
+    },
+    {
+      key: 5,
+      title: "Implement Payment Gateway",
+      status: "Not completed",
+      description: "Implement the payment gateway",
+      color: "orange",
+      priority: "high",
+    },
+  ])
+  return (
+    <div className={styles.wrapper}>
+       <div className={styles.addBtn}> <Button type="primary" onClick={()=>setOpenModal(true)}> <PlusOutlined/> Add Task</Button></div>
+      {/* <div className={styles.title}>Here is your tasks for today</div>
             <div className={styles.container}>
                 {tasks.map((task,index)=>{
                     return(
@@ -131,11 +130,15 @@ const TaskList = () => {
                 })}
             </div> */}
 
-            <Table<DataType> columns={columns} dataSource={tasks} />
+      <Table<DataType> columns={columns} dataSource={tasks} style={{width:" 100%"}} />
 
+      {/* <TaskForm/> */}
 
-        </div>
-    );
-}
+        <Modal title="Add Task" open={openModal} footer={false} onClose={() => setOpenModal(false)}>
+            <TaskForm handleSubmit={handleSubmit} />
+            </Modal>
+    </div>
+  );
+};
 
 export default TaskList;
