@@ -1,0 +1,15 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #dedede;
+}
+
+@media(max-width:480px){
+    .container {
+        flex-direction: column;
+        justify-content: flex-start;
+        padding-top: 10%;
+    }
+}
