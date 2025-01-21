@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Cookies from 'js-cookie';
+import { LoginRequest } from "@/interfaces/auth";
 
 export const useLoginCheck = () => {
     const router = useRouter();
@@ -15,10 +16,7 @@ export const useLoginCheck = () => {
         }
     },[])
 
-    const loginCheck = (values : unknown) => {
-        // Perform login check logic here
-        // For example, compare values with user
-        console.log('Login Check:', values);
+    const login = async (values : LoginRequest) => {
         if (values?.email === "test@gmail.com" && values?.password === "test@1234") {
             // setIsLoggedIn(true);
             Cookies.set('authToken', '1234');
@@ -37,5 +35,5 @@ export const useLoginCheck = () => {
         router.push('/login');
     }
 
-    return {isAuthenticated ,loginCheck,logout};
+    return {isAuthenticated ,login,logout};
 };

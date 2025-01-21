@@ -5,7 +5,7 @@ import { useForm } from 'antd/es/form/Form';
 import { useState } from 'react';
 const SignUp = () =>{
     const [form] = useForm();
-    const [registrationValues, setRegistrationValues] = useState({
+    const [registrationValues] = useState({
         firstName : '',
         lastName : '',
         email : '',
