@@ -13,8 +13,9 @@ const SignUp = () =>{
         confirmPassword : ''
     });
 
-    const onFormSubmit = (values) => {
+    const onFormSubmit = (values : unknown) => {
         console.log(values);
+      
     }
     return(
         <div className={styles.wrapper}>

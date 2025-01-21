@@ -14,6 +14,7 @@ const Login = () => {
 
     const onFormSubmit = (values) => {
         console.log(values);
+        localStorage.setItem('auth', "true");
     }
 
     return(
