@@ -45,8 +45,8 @@ const SideNav = () => {
         })}
       </div>
 
-      <div className={styles.logout}>
-        <PoweroffOutlined onClick={()=>handleLogout()} /> <span>Logout</span>
+      <div className={styles.logout} onClick={()=>handleLogout()}>
+        <PoweroffOutlined  /> <span>Logout</span>
       </div>
     </div>
   );

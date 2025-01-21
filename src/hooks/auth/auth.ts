@@ -17,16 +17,23 @@ export const useLoginCheck = () => {
     },[])
 
     const login = async (values : LoginRequest) => {
-        if (values?.email === "test@gmail.com" && values?.password === "test@1234") {
-            // setIsLoggedIn(true);
-            Cookies.set('authToken', '1234');
-            router.push('/dashboard');
-            setIsAuthenticated(true);
-            
-        } else {
-
-            return false;
-        }
+        
+        const response = new Promise((resolve,reject) => {
+            if(values.email === 'test@gmail.com' && values.password === 'test@1234') {
+                Cookies.set('authToken','testToken');
+                setIsAuthenticated(true);
+                setTimeout(() => {
+                    router.push('/dashboard');
+                    resolve(true);
+                },2000)
+                
+            } else {
+                setTimeout(() => {
+                    reject(false);
+                },2000)
+            }
+        })
+        return response;
     };
 
     const logout = () => {

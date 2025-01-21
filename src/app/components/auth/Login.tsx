@@ -3,9 +3,10 @@ import { useLoginCheck } from '@/hooks/auth/auth';
 import styles from './auth.module.css'
 import {  Button, Form, Input } from 'antd';
 import { useForm } from 'antd/es/form/Form';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { LoginRequest } from '@/interfaces/auth';
 import { Alert } from "antd";
+import { Spinner } from '../common/spinner/Spinner';
 
 const Login = () => {
 
@@ -14,17 +15,28 @@ const Login = () => {
         email : '',
         password : ''
     });
+    const [showSpin, setShowSpin] = useState(false);
     const [showError, setShowError] = useState(false);
     const {login} = useLoginCheck();
     const onFormSubmit = async  (values : LoginRequest) => {
-        const  loginResponse = await login(values);
+        setShowSpin(true);
+        try {
+            const  loginResponse = await login(values);
         console.log(loginResponse)
         if(!loginResponse) {
             setShowError(true);
         }
+        } catch (err) {
+            console.log(err);
+            setShowError(true);   
+        }
+        setShowSpin(false);
     }
     return(
+        <Fragment>
+            {showSpin && <Spinner/>}
         <div className={styles.wrapper}>
+           
             <div className={styles.title}>Login</div>
             <div className={styles.formContainer}>
                 <Form
@@ -64,6 +76,7 @@ const Login = () => {
                 </Form>
             </div>
         </div>
+        </Fragment>
     )
 }
 

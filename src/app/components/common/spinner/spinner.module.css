@@ -1,0 +1,10 @@
+.spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    top: 0;
+}
