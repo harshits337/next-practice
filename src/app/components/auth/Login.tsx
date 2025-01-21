@@ -1,4 +1,5 @@
 'use client';
+import { useLoginCheck } from '@/hooks/auth/auth';
 import styles from './auth.module.css'
 import {  Button, Form, Input } from 'antd';
 import { useForm } from 'antd/es/form/Form';
@@ -12,9 +13,9 @@ const Login = () => {
         password : ''
     })
 
-    const onFormSubmit = (values) => {
-        console.log(values);
-        localStorage.setItem('auth', "true");
+    const {loginCheck} = useLoginCheck();
+    const onFormSubmit = (values : unknown) => {
+        loginCheck(values);
     }
 
     return(

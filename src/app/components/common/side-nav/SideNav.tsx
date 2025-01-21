@@ -1,8 +1,14 @@
+'use client';
 import Link from "next/link";
 import styles from "./SideNav.module.css";
 import React from "react";
 import { BarChartOutlined, PlusCircleOutlined, PoweroffOutlined } from "@ant-design/icons";
+import { useLoginCheck } from "@/hooks/auth/auth";
 const SideNav = () => {
+  const {logout }= useLoginCheck();
+  const handleLogout = () => {
+    logout();
+  }
   const links = [
     {
       name: "My Tasks",
@@ -40,7 +46,7 @@ const SideNav = () => {
       </div>
 
       <div className={styles.logout}>
-        <PoweroffOutlined /> <span>Logout</span>
+        <PoweroffOutlined onClick={()=>handleLogout()} /> <span>Logout</span>
       </div>
     </div>
   );
