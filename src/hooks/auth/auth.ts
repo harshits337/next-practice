@@ -2,7 +2,6 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Cookies from 'js-cookie';
-import { Cookie } from "next/font/google";
 
 export const useLoginCheck = () => {
     const router = useRouter();
@@ -22,7 +21,7 @@ export const useLoginCheck = () => {
         console.log('Login Check:', values);
         if (values?.email === "test@gmail.com" && values?.password === "test@1234") {
             // setIsLoggedIn(true);
-            localStorage.setItem('auth', 'true');
+            Cookies.set('authToken', '1234');
             router.push('/dashboard');
             setIsAuthenticated(true);
             
