@@ -28,9 +28,12 @@ const BlogsPage = () => {
 
 
     useEffect(()=>{
-        fetchBlogDetails(router.query.slug as string);
+        
+       if(router.query.slug){
+        fetchBlogDetails(router.query.slug.toString()); 
+       }
 
-    },[]);
+    },[router.query.slug]);
 
     console.log(blogDetails);
 
