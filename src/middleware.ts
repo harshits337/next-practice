@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const unprotectedRoutes = ['/login', '/sign-up', '/api/login'];
+const unprotectedRoutes = ['/login', '/sign-up', '/api/login','/profile'];
 
 export function middleware(req: NextRequest) {
   const token = req.cookies.get('authToken')?.value;
@@ -28,7 +28,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
-  ],
+  matcher: ['/((?!api|_next/static|_next/image|assets|favicon.ico|logo.png|sw.js).*)']
 };
