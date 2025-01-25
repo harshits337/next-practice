@@ -1,0 +1,37 @@
+.blogListContainer {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: 'Courier New', Courier, monospace;
+  }
+  
+  .blogItem {
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
+  
+  .blogTitle {
+    font-size: 1.5em;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  .blogYear {
+    font-size: 0.9em;
+    margin-bottom: 10px;
+    color: #999;
+  }
+  
+  .blogDescription {
+    font-size: 1em;
+    color: #666;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    -webkit-box-orient: vertical;
+  }

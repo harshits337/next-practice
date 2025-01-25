@@ -1,0 +1,45 @@
+import { useEffect, useState } from "react";
+
+interface BlogDetails {
+   id : number;
+   title : string;
+   description : string;
+   year : number,
+   slug : string,
+   issue_numer :  number
+
+}
+
+import styles from './blog.module.css';
+const BlogListingPage = ()=>{
+
+   const [blogList, setBlogList] = useState<BlogDetails[]>([]);
+
+   const fetchBlogList = async () => {
+         const response = await fetch('/api/all-blogs');
+         const data = await response.json();
+         setBlogList(data);
+   }
+
+   useEffect(()=>{
+      fetchBlogList();
+   },[])
+   return (
+
+      <div className={styles.blogListContainer}>
+      {blogList.map((blog) => (
+        <div key={blog.id} className={styles.blogItem}>
+          <h2 className={styles.blogTitle}>{blog.title}</h2>
+          <p className={styles.blogYear}>{blog.year}</p>
+          <p className={styles.blogDescription}>{blog.description}</p>
+        </div>
+      ))}
+    </div>
+  );
+      
+}
+
+export default BlogListingPage;
+
+
+
