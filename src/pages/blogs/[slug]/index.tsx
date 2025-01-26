@@ -59,7 +59,7 @@ const BlogsPage = (props : BlogDetailsProps) => {
     return (
         <div className={styles.blogContainer}>
         <h1 className={styles.title}>{blogDetails.title}</h1>
-        <Image src={`/banner/${blogDetails.image}`} alt="banner" className={styles.banner} width={800} height={600} />
+        <Image src={'https://res.cloudinary.com/dwspjwpfw/image/upload/v1737891186/banner/6_hamugo.webp'} alt="banner" className={styles.banner} width={800} height={600} />
         <p className={styles.year}>{blogDetails.year}</p>
         <p className={styles.slug}>{blogDetails.slug}</p>
         <p className={styles.description}>{blogDetails.description}</p>
