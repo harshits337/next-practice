@@ -31,6 +31,19 @@ const BlogListingPage = () => {
   useEffect(() => {
     fetchBlogList();
   }, []);
+
+  if(!blogList.length){
+    return  <div className={styles.skeletonContainer}>
+      {Array.from({ length: 5 }).map((_, index) => (
+       <div key={index} className={styles.skeletonCard}>
+        <div className={styles.skeletonImage}></div>
+        <div className={styles.skeletonTitle}></div>
+        <div className={styles.skeletonYear}></div>
+        <div className={styles.skeletonDescription}></div>
+      </div>
+      ))}
+    </div>
+  }
   return (
     <div className={styles.blogListContainer}>
       {blogList.map((blog) => (
