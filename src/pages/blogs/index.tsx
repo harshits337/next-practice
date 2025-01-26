@@ -39,6 +39,7 @@ const BlogListingPage = () => {
           className={styles.blogItem}
           onClick={() => handleBlogClick(blog.slug)}
         >
+          <img src={`/banner/${blog.image}`} alt={blog.title} className={styles.blogImage} />
           <h2 className={styles.blogTitle}>{blog.title}</h2>
           <p className={styles.blogYear}>{blog.year}</p>
           <p className={styles.blogDescription}>{blog.description}</p>
