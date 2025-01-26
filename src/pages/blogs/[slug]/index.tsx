@@ -15,6 +15,7 @@ interface BlogDetailsProps {
     initialBlogDetails : BlogDetails
 }
 
+import Image from 'next/image';
 import styles from './BlogDetails.module.css';
 // import { useRouter } from "next/router";
 
@@ -58,7 +59,7 @@ const BlogsPage = (props : BlogDetailsProps) => {
     return (
         <div className={styles.blogContainer}>
         <h1 className={styles.title}>{blogDetails.title}</h1>
-        <img src={`/banner/${blogDetails.image}`} alt="banner" className={styles.banner}/>
+        <Image src={`/banner/${blogDetails.image}`} alt="banner" className={styles.banner} width={800} height={600} />
         <p className={styles.year}>{blogDetails.year}</p>
         <p className={styles.slug}>{blogDetails.slug}</p>
         <p className={styles.description}>{blogDetails.description}</p>
@@ -86,7 +87,7 @@ import { GetServerSideProps } from 'next';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const { slug } = context.params!;
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/blogs?slug=${slug}`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/api/blogs?slug=${slug}`);
     const data = await response.json();
 
     return {
