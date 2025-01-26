@@ -27,3 +27,49 @@
     border-radius: 8px;
     margin-bottom: 20px;
   }
+
+  .skeletonContainer {
+    padding: 20px;
+    max-width: 800px;
+    height: 100vh;
+    margin: 0 auto;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: 'Courier New', Courier, monospace;
+    animation: pulse 1.5s infinite;
+  }
+
+  .skeletonTitle, .skeletonYear, .skeletonSlug, .skeletonDescription {
+    background-color: #e0e0e0;
+    height: 20px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    animation: pulse 1.5s infinite;
+  }
+
+  .skeletonTitle {
+    width: 60%;
+    height: 30px;
+  }
+
+  .skeletonBanner {
+    width: 100%;
+    height: 300px;
+    background-color: #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      background-color: #e0e0e0;
+    }
+    50% {
+      background-color: #f0f0f0;
+    }
+    100% {
+      background-color: #e0e0e0;
+    }
+  }

@@ -16,11 +16,15 @@ const comicsData : Comics[]= JSON.parse(JSON.stringify(comics));
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
-   const slug : string = req.query?.slug ? req.query.slug.toString() : '';
-   console.log("slug",slug);
 
-    const blogDetails = comicsData.find((blog) => blog.slug === slug);
-    return res.status(200).json(blogDetails);
+    // Simulate a delay
+    setTimeout(()=>{
+        const slug : string = req.query?.slug ? req.query.slug.toString() : '';
+        console.log("slug",slug);
+     
+         const blogDetails = comicsData.find((blog) => blog.slug === slug);
+         return res.status(200).json(blogDetails);
+    },1000)
 
 
 }

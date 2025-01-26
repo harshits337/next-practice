@@ -37,8 +37,16 @@ const BlogsPage = () => {
 
     console.log(blogDetails);
 
-    if(!Object.keys(blogDetails).length){
-        return <p>Loading...</p>
+    if (!Object.keys(blogDetails).length) {
+        return (
+            <div className={styles.skeletonContainer}>
+                <div className={styles.skeletonTitle}></div>
+                <div className={styles.skeletonBanner}></div>
+                <div className={styles.skeletonYear}></div>
+                <div className={styles.skeletonSlug}></div>
+                <div className={styles.skeletonDescription}></div>
+            </div>
+        );
     }
 
     return (
