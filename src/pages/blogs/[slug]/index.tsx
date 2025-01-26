@@ -86,7 +86,7 @@ import { GetServerSideProps } from 'next';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const { slug } = context.params!;
-    const response = await fetch(`http://localhost:3000/api/blogs?slug=${slug}`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/blogs?slug=${slug}`);
     const data = await response.json();
 
     return {
