@@ -8,6 +8,7 @@ interface BlogDetails {
   year: number;
   slug: string;
   issue_numer: number;
+  image: string;
 }
 
 import styles from "./blog.module.css";

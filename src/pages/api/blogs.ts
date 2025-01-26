@@ -8,7 +8,8 @@ interface Comics {
     description : string;
     year : number,
     slug : string,
-    issue_numer :  number
+    issue_numer :  number,
+    image : string
 }
 const comicsData : Comics[]= JSON.parse(JSON.stringify(comics));
 
