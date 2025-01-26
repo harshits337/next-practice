@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 
 interface BlogDetails {
     id : number;
@@ -11,29 +11,35 @@ interface BlogDetails {
 
 }
 
+interface BlogDetailsProps {
+    initialBlogDetails : BlogDetails
+}
+
 import styles from './BlogDetails.module.css';
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 
-const BlogsPage = () => {
+const BlogsPage = (props : BlogDetailsProps) => {
 
-    const [blogDetails, setBlogDetails] = useState<BlogDetails>({} as BlogDetails);
-    const router = useRouter();
-    // console.log(router.query.slug);
-    const fetchBlogDetails = async (slug : string) => {
-        console.log(slug);
-        const response = await fetch(`/api/blogs?slug=${slug}`);
-        const data = await response.json();
-        setBlogDetails(data);
-    } 
+    // const [blogDetails, setBlogDetails] = useState<BlogDetails>({} as BlogDetails);
+    // const router = useRouter();
+    // // console.log(router.query.slug);
+    // const fetchBlogDetails = async (slug : string) => {
+    //     console.log(slug);
+    //     const response = await fetch(`/api/blogs?slug=${slug}`);
+    //     const data = await response.json();
+    //     setBlogDetails(data);
+    // } 
 
 
-    useEffect(()=>{
+    // useEffect(()=>{
         
-       if(router.query.slug){
-        fetchBlogDetails(router.query.slug.toString()); 
-       }
+    //    if(router.query.slug){
+    //     fetchBlogDetails(router.query.slug.toString()); 
+    //    }
 
-    },[router.query.slug]);
+    // },[router.query.slug]);
+
+    const blogDetails  : BlogDetails= props.initialBlogDetails;
 
     console.log(blogDetails);
 
@@ -75,6 +81,20 @@ const BlogsPage = () => {
       </div>
     )
 }
+
+import { GetServerSideProps } from 'next';
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const { slug } = context.params!;
+    const response = await fetch(`http://localhost:3000/api/blogs?slug=${slug}`);
+    const data = await response.json();
+
+    return {
+        props: {
+            initialBlogDetails: data,
+        },
+    };
+};
 
 
 export default BlogsPage;
