@@ -17,6 +17,10 @@ interface BlogDetailsProps {
 
 import Image from 'next/image';
 import styles from './BlogDetails.module.css';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import comics from '../../../data/comics.json';
+
+const typedComics: BlogDetails[] = comics as BlogDetails[];
 // import { useRouter } from "next/router";
 
 const BlogsPage = (props : BlogDetailsProps) => {
@@ -59,7 +63,7 @@ const BlogsPage = (props : BlogDetailsProps) => {
     return (
         <div className={styles.blogContainer}>
         <h1 className={styles.title}>{blogDetails.title}</h1>
-        <Image src={'https://res.cloudinary.com/dwspjwpfw/image/upload/v1737891186/banner/6_hamugo.webp'} alt="banner" className={styles.banner} width={800} height={600} />
+        <Image src={'https://res.cloudinary.com/dwspjwpfw/image/upload/v1737893103/banner/6m_iy5erm.webp'} alt="banner" className={styles.banner} width={800} height={600} />
         <p className={styles.year}>{blogDetails.year}</p>
         <p className={styles.slug}>{blogDetails.slug}</p>
         <p className={styles.description}>{blogDetails.description}</p>
@@ -83,19 +87,46 @@ const BlogsPage = (props : BlogDetailsProps) => {
     )
 }
 
-import { GetServerSideProps } from 'next';
+// import { GetServerSideProps } from 'next';
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+// export const getStaticProps: GetServerSideProps = async (context) => {
+//     const { slug } = context.params!;
+//     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/api/blogs?slug=${slug}`);
+//     const data = await response.json();
+
+//     return {
+//         props: {
+//             initialBlogDetails: data,
+//         },
+//     };
+// };
+export const getStaticPaths: GetStaticPaths = async () => {
+    
+    const blogs : BlogDetails[] = typedComics;
+   
+  
+    const paths = blogs.map((blog) => ({
+      params: { slug: blog.slug },
+    }));
+  
+    return { paths, fallback: true };
+  };
+  
+  export const getStaticProps: GetStaticProps = async (context) => {
     const { slug } = context.params!;
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'}/api/blogs?slug=${slug}`);
-    const data = await response.json();
 
+    const blogDetails: BlogDetails = typedComics.find((blog) => blog.slug === slug) as BlogDetails;
+  
     return {
-        props: {
-            initialBlogDetails: data,
-        },
+      props: {
+        blogDetails,
+      },
+      revalidate: 120, // Re-generate the page at most once every 10 seconds
     };
-};
+  };
+  
+
+
 
 
 export default BlogsPage;
