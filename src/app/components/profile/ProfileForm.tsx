@@ -1,11 +1,12 @@
 "use client";
-import { Form, Input, Button, DatePicker, Select } from "antd";
+import { Form, Input, Button, DatePicker, Select, Upload} from "antd";
 import { useForm } from "antd/es/form/Form";
 import { useState } from "react";
 import styles from "./profile.module.css";
 import { ProfileValues } from "@/interfaces/profile/profileInterfaces";
-
 const { Option } = Select;
+
+  
 
 const ProfileForm = () => {
   const [profileValues] = useState<ProfileValues>({
@@ -27,6 +28,8 @@ const ProfileForm = () => {
   });
 
   const [form] = useForm();
+
+
 
   const onFinish = (values: ProfileValues) => {
     console.log('Received values:', values);
@@ -245,7 +248,7 @@ const ProfileForm = () => {
                   message: "About is required",
                 },
                 {
-                    len: 200,
+                    max: 500,
                     message: "About should be less than 200 words",
                 }
               ]}
@@ -295,20 +298,36 @@ const ProfileForm = () => {
         <div className={styles.row}>
           <div className={styles.col}>
             <Form.Item
-              label="Profile Picture URL"
+              label="Profile Picture"
               name="profilePic"
               rules={[
-                {
-                  required: true,
-                  message: "Profile Picture URL is required",
-                },
+            {
+              required: true,
+              message: "Profile Picture is required",
+            },
               ]}
             >
-              <Input type="upload" />
+              <Upload
+            name="profilePic"
+            listType="picture"
+            beforeUpload={() => false} // Prevent automatic upload
+            accept="image/*"
+            maxCount={1}
+            onChange={async (info) => {
+              const file = info.file.originFileObj;
+              const reader = new FileReader();
+              if (file) {
+                reader.readAsDataURL(file);
+                reader.onload = () => {
+                  form.setFieldsValue({ profilePic: reader.result });
+                };
+              }
+            }}
+              >
+            <Button>Click to Upload</Button>
+              </Upload>
             </Form.Item>
           </div>
-
-          
         </div>
 
         
