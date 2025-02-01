@@ -22,9 +22,10 @@ const sampleProfile = {
     phoneNumber: "123-456-7890",
   };
 
-export default async function MainThema({ params }: { params: Params }) {
-    const {id} = params;
-    console.log(id);
-  
-    return <div><ProfileView profile={sampleProfile}/></div>;
-  }
+export default async function MainThema(props: { params: Promise<Params> }) {
+  const params = await props.params;
+  const {id} = params;
+  console.log(id);
+
+  return <div><ProfileView profile={sampleProfile}/></div>;
+}
