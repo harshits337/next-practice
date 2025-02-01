@@ -5,11 +5,33 @@
 
 }
 
+.profileForm{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #fcfcfc;
+    border-radius: 10px;
+    margin-top: 20px;
+
+}
+
+
+
 .row {
     display: flex;
     flex-direction: row;
     width: 100%;
+}
+
+.col {
     flex: 1;
+    margin: 10px;
+}
+
+.row .ant-form-item {
+    flex: 1 !important;
 }
 
 
