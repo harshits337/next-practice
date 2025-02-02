@@ -1,0 +1,84 @@
+/* Feed.module.css */
+
+.feed {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .postCreation {
+    margin-bottom: 20px;
+  }
+  
+  .postCreation textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    margin-bottom: 10px;
+  }
+  
+  .postCreation input[type="file"] {
+    margin-bottom: 10px;
+  }
+  
+  .postCreation button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .postCreation button:hover {
+    background-color: #0056b3;
+  }
+  
+  .posts {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .post {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .postImage {
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    object-fit: cover;
+  }
+  
+  .postText {
+    padding: 15px;
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .postActions {
+    padding: 10px 15px;
+    border-top: 1px solid #ddd;
+  }
+  
+  .likeButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .likeButton:hover {
+    opacity: 0.8;
+  }

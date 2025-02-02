@@ -1,0 +1,40 @@
+/* post.module.css */
+
+.postCreation {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  
+  .textArea {
+    width: 100%;
+    border-radius: 8px;
+    resize: none;
+  }
+  
+  .imageName {
+    margin-left: 10px;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .imagePreview {
+    margin-top: 15px;
+    text-align: center;
+  }
+  
+  .submitButton {
+    width: 100%;
+    background-color: #1890ff;
+    border-color: #1890ff;
+    border-radius: 8px;
+    font-weight: 500;
+  }
+  
+  .submitButton:hover {
+    background-color: #40a9ff;
+    border-color: #40a9ff;
+  }
