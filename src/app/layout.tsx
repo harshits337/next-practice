@@ -4,7 +4,7 @@ import "./globals.css";
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 
 import { AppProvider } from "@/redux/clientProvider";
-import Toast from "./components/common/toast/Toast";
+import CommonLayoutComponents from "./components/common/common";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,7 +36,7 @@ export default function RootLayout({
         
           <AntdRegistry>
           <AppProvider> {children}
-          <Toast />
+          <CommonLayoutComponents />
           </AppProvider>
           </AntdRegistry>
       </body>

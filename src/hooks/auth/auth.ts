@@ -2,10 +2,10 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Cookies from 'js-cookie';
-import axios from 'axios';
 import { LoginRequest, SignUpRequest } from "@/interfaces/auth";
 import { useDispatch } from "react-redux";
 import toastSlice from "@/redux/toastSlice";
+import axiosInstance from "@/app/components/axios";
 
 export const useAuth = () => {
     const router = useRouter();
@@ -16,7 +16,7 @@ export const useAuth = () => {
     const register = async (values : SignUpRequest) => {
         console.log(values);
         try {
-            const response = await axios.post('http://localhost:5000/rest/api/v1/auth/register',values);
+            const response = await axiosInstance.post('/auth/register',values);
             if(response.status === 200){
                 dispatch(toastSlice.actions.setToastState({
                     message : 'Registration successful',
@@ -46,10 +46,7 @@ export const useAuth = () => {
     useEffect(() => {
         const authToken = Cookies.get('authToken');
         if(authToken){
-            axios.get('http://localhost:5000/api/v1/auth/me',{
-                headers : {
-                    Authorization : `Bearer ${authToken}`
-                }
+            axiosInstance.get('http://localhost:5000/api/v1/auth/me',{
             }).then((response) => {
                 setUserDetails(response.data);
             }).catch((error) => {
@@ -63,11 +60,11 @@ export const useAuth = () => {
     const login = async (values : LoginRequest) => {
         
       try {
-        const response = await axios.post('http://localhost:5000/rest/api/v1/auth/login',values);
+        const response = await axiosInstance.post('/auth/login',values);
         if(response.status === 200){
             Cookies.set('authToken',response.data.token);
             setUserDetails(response.data.user);
-            router.push('/');
+            router.push('/profile');
             dispatch(toastSlice.actions.setToastState({
               message : 'Login successful',
               type : 'success',
