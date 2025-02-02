@@ -1,12 +1,10 @@
 'use client';
-import { useLoginCheck } from '@/hooks/auth/auth';
+import { useAuth } from '@/hooks/auth/auth';
 import styles from './auth.module.css'
 import {  Button, Form, Input } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import { Fragment, useState } from 'react';
 import { LoginRequest } from '@/interfaces/auth';
-import { Alert } from "antd";
-import { Spinner } from '../common/spinner/Spinner';
 
 const Login = () => {
 
@@ -15,26 +13,12 @@ const Login = () => {
         email : '',
         password : ''
     });
-    const [showSpin, setShowSpin] = useState(false);
-    const [showError, setShowError] = useState(false);
-    const {login} = useLoginCheck();
+    const {login} = useAuth();
     const onFormSubmit = async  (values : LoginRequest) => {
-        setShowSpin(true);
-        try {
-            const  loginResponse = await login(values);
-        console.log(loginResponse)
-        if(!loginResponse) {
-            setShowError(true);
-        }
-        } catch (err) {
-            console.log(err);
-            setShowError(true);   
-        }
-        setShowSpin(false);
+       login(values)
     }
     return(
         <Fragment>
-            {showSpin && <Spinner/>}
         <div className={styles.wrapper}>
            
             <div className={styles.title}>Login</div>
@@ -64,10 +48,7 @@ const Login = () => {
                     ]}>
                         <Input type='password'/>
                     </Form.Item>
-                    {showError && <Form.Item>
-                           <Alert message="Invalid email or password" type="error" />
-                        </Form.Item>
-}
+                   
                     <Form.Item>
                         <Button type="primary" htmlType="submit">Login</Button>
                     </Form.Item>

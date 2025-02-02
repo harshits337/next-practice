@@ -1,10 +1,15 @@
 'use client';
+import { useAuth } from '@/hooks/auth/auth';
 import styles from './auth.module.css'
 import {  Button, Form, Input } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import { useState } from 'react';
+import { SignUpRequest } from '@/interfaces/auth';
 const SignUp = () =>{
     const [form] = useForm();
+    const { register } = useAuth();
+   
+    // console.log("toast state" , toast)
     const [registrationValues] = useState({
         firstName : '',
         lastName : '',
@@ -13,12 +18,18 @@ const SignUp = () =>{
         confirmPassword : ''
     });
 
-    const onFormSubmit = (values : unknown) => {
-        console.log(values);
+    const onFormSubmit = (values : SignUpRequest) => {
+        register({
+            firstName : values['firstName'],
+            lastName : values['lastName'],
+            email : values['email'],
+            password : values['password']
+        });
       
     }
     return(
         <div className={styles.wrapper}>
+            
             <div className={styles.title}>
                 Sign Up
             </div>
