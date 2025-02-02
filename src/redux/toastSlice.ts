@@ -9,8 +9,7 @@ const toastSlice = createSlice({
     message : '',
     type : '',
     show : false,
-    duration : 0,
-    onClose : () => {}
+    duration : 0
 
 
   },
@@ -21,7 +20,6 @@ const toastSlice = createSlice({
         state.type = action.payload.type;
         state.show = action.payload.show;
         state.duration = action.payload.duration;
-        state.onClose = action.payload.onclose;
        
     }
   },

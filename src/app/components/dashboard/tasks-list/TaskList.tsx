@@ -202,13 +202,13 @@ const TaskList = () => {
   const [tasks, setTasks] = useState<DataType[]>(allTasks.filter((task) => task.createdDate === defaultDate[0].format("YYYY-MM-DD")));
   return (
     <div className={styles.wrapper}>
-      {toast.show && (
+      {/* {toast.show && (
         <Toast
           message={toast.message}
           type={toast.type}
           onClose={handleCloseToast}
         />
-      )}
+      )} */}
       <div className={styles.addBtn}>
         <DatePicker
           onChange={onDateChange}

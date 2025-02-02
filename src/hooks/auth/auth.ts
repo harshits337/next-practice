@@ -6,10 +6,12 @@ import { LoginRequest, SignUpRequest } from "@/interfaces/auth";
 import { useDispatch } from "react-redux";
 import toastSlice from "@/redux/toastSlice";
 import axiosInstance from "@/app/components/axios";
+import { log } from "console";
 
 export const useAuth = () => {
     const router = useRouter();
     const [userDetails, setUserDetails] = useState(null);
+    const [isAuthenticated, setIsAuthenticated] = useState(true);
     // const authState = useSelector((state : any) => state.counter.value);
     const dispatch = useDispatch();
 
@@ -46,13 +48,17 @@ export const useAuth = () => {
     useEffect(() => {
         const authToken = Cookies.get('authToken');
         if(authToken){
-            axiosInstance.get('http://localhost:5000/api/v1/auth/me',{
+            axiosInstance.get('/auth/me',{
             }).then((response) => {
+                console.log(response);
                 setUserDetails(response.data);
+                setIsAuthenticated(true);
             }).catch((error) => {
                 console.log(error);
+                setIsAuthenticated(false);
+                logout();
             })
-        }
+        } 
     },[])
 
 
@@ -62,7 +68,8 @@ export const useAuth = () => {
       try {
         const response = await axiosInstance.post('/auth/login',values);
         if(response.status === 200){
-            Cookies.set('authToken',response.data.token);
+            console.log(response);
+            Cookies.set('authToken',response?.data?.data?.token);
             setUserDetails(response.data.user);
             router.push('/profile');
             dispatch(toastSlice.actions.setToastState({
@@ -96,5 +103,5 @@ export const useAuth = () => {
         router.push('/login');
     }
 
-    return {userDetails,register, login,logout};
+    return {userDetails,register, login,logout, isAuthenticated};
 };

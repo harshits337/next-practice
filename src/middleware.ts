@@ -15,7 +15,6 @@ export function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL('/login', req.url));
   }
 
-  //   jwt verification logic TBD
   console.log('pathName:', req.nextUrl.pathname);
 
   if(req.nextUrl.pathname === '/login' || req.nextUrl.pathname === '/sign-up') {
