@@ -2,6 +2,7 @@
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
+    overflow: auto;
   }
   
   .searchBar {
@@ -17,25 +18,27 @@
   }
   
   .userGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: 20px;
+    justify-content: space-between;
   }
   
   .userCard {
     border: 1px solid #ddd;
     border-radius: 8px;
-    overflow: hidden;
+    overflow: auto;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s;
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 250px;
   }
 
   
   .userCard:hover {
-    transform: translateY(-5px);
+    transform: translateY(-10px);
   }
   
   .avatar {

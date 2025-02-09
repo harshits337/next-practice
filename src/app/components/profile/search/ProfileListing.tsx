@@ -1,137 +1,57 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './page.module.css';
-import { ProfileValues } from '@/interfaces/profile/profileInterfaces';
+// import { ProfileValues } from '@/interfaces/profile/profileInterfaces';
 import { useSearchHook } from '@/hooks/search';
 import SearchResultsSkeleton from '../../search/skeleton/results';
 
 // Mock data based on the ProfileValues interface
-const mockUsers: ProfileValues[] = [
-  {
-    id: '1',
-    firstName: 'pack',
-    lastName: 'Doe',
-    email: 'john.doe@example.com',
-    gender: 'Male',
-    dob: '1990-01-01',
-    currentCompany: 'Tech Corp',
-    currentRole: 'Software Engineer',
-    totalExperience: '5 years',
-    title: 'Senior Developer',
-    about: 'Experienced software developer...',
-    username: 'johndoe',
-    skills: ['JavaScript', 'React', 'Node.js'],
-    profilePic: 'https://avatar.iran.liara.run/public/boy',
-    country: 'USA',
-    phoneNumber: '+1234567890',
-  },
-  {
-    id: '1',
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'john.doe@example.com',
-    gender: 'Male',
-    dob: '1990-01-01',
-    currentCompany: 'Tech Corp',
-    currentRole: 'Software Engineer',
-    totalExperience: '5 years',
-    title: 'Senior Developer',
-    about: 'Experienced software developer...',
-    username: 'johndoe',
-    skills: ['JavaScript', 'React', 'Node.js'],
-    profilePic: 'https://avatar.iran.liara.run/public/boy',
-    country: 'USA',
-    phoneNumber: '+1234567890',
-  },
-  {
-    id: '1',
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'john.doe@example.com',
-    gender: 'Male',
-    dob: '1990-01-01',
-    currentCompany: 'Tech Corp',
-    currentRole: 'Software Engineer',
-    totalExperience: '5 years',
-    title: 'Senior Developer',
-    about: 'Experienced software developer...',
-    username: 'johndoe',
-    skills: ['JavaScript', 'React', 'Node.js'],
-    profilePic: 'https://avatar.iran.liara.run/public/boy',
-    country: 'USA',
-    phoneNumber: '+1234567890',
-  },
-  {
-    id: '1',
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'john.doe@example.com',
-    gender: 'Male',
-    dob: '1990-01-01',
-    currentCompany: 'Tech Corp',
-    currentRole: 'Software Engineer',
-    totalExperience: '5 years',
-    title: 'Senior Developer',
-    about: 'Experienced software developer...',
-    username: 'johndoe',
-    skills: ['JavaScript', 'React', 'Node.js'],
-    profilePic: 'https://avatar.iran.liara.run/public/boy',
-    country: 'USA',
-    phoneNumber: '+1234567890',
-  },
-  {
-    id: '1',
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'john.doe@example.com',
-    gender: 'Male',
-    dob: '1990-01-01',
-    currentCompany: 'Tech Corp',
-    currentRole: 'Software Engineer',
-    totalExperience: '5 years',
-    title: 'Senior Developer',
-    about: 'Experienced software developer...',
-    username: 'johndoe',
-    skills: ['JavaScript', 'React', 'Node.js'],
-    profilePic: 'https://avatar.iran.liara.run/public/boy',
-    country: 'USA',
-    phoneNumber: '+1234567890',
-  },
-  {
-    id: '1',
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'john.doe@example.com',
-    gender: 'Male',
-    dob: '1990-01-01',
-    currentCompany: 'Tech Corp',
-    currentRole: 'Software Engineer',
-    totalExperience: '5 years',
-    title: 'Senior Developer',
-    about: 'Experienced software developer...',
-    username: 'johndoe',
-    skills: ['JavaScript', 'React', 'Node.js'],
-    profilePic: 'https://avatar.iran.liara.run/public/boy',
-    country: 'USA',
-    phoneNumber: '+1234567890',
-  }
-  // Add more mock users as needed
-];
+
 
 const UserProfileListing: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
-
+  const [loading, setLoading] = useState(false);
   // const filteredUsers = mockUsers.filter(user =>
   //   `${user.firstName} ${user.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
   // );
-  const {searchResults} = useSearchHook();
+  const {searchResults , searchProfiles} = useSearchHook();
 
   console.log(searchResults);
 
-  if(!searchResults){
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (observerRef.current) observerRef.current.disconnect();
+
+    observerRef.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !loading) {
+        console.log('Reached the bottom, load more users');
+
+        setLoading(true);
+
+        searchProfiles(searchTerm).finally(() => {setLoading(false)});
+        
+
+        
+        
+      }
+    });
+
+    if (loadMoreRef.current) observerRef.current.observe(loadMoreRef.current);
+
+    return () => {
+      if (observerRef.current) observerRef.current.disconnect();
+    };
+  }, [searchProfiles, loading]);
+
+
+
+  if(!searchResults.length){
     return <SearchResultsSkeleton/>
   }
+
 
   // return<SearchResultsSkeleton/>
 
@@ -146,7 +66,8 @@ const UserProfileListing: React.FC = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-      <div className={styles.userGrid}>
+      <div className={styles.userGrid} 
+      >
         {searchResults.map(user => (
             <div key={user.id} className={styles.userCard}>
             <img 
@@ -164,6 +85,7 @@ const UserProfileListing: React.FC = () => {
             </div>
         ))}
       </div>
+        {!loading && <div ref={loadMoreRef} className={styles.loadMore}>Load More</div>}
     </div>
   );
 };
