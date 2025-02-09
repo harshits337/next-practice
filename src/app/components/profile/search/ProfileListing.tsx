@@ -1,7 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 import React, { useState } from 'react';
 import styles from './page.module.css';
 import { ProfileValues } from '@/interfaces/profile/profileInterfaces';
+import { useSearchHook } from '@/hooks/search';
+import SearchResultsSkeleton from '../../search/skeleton/results';
 
 // Mock data based on the ProfileValues interface
 const mockUsers: ProfileValues[] = [
@@ -119,9 +122,19 @@ const mockUsers: ProfileValues[] = [
 const UserProfileListing: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredUsers = mockUsers.filter(user =>
-    `${user.firstName} ${user.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // const filteredUsers = mockUsers.filter(user =>
+  //   `${user.firstName} ${user.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
+  const {searchResults} = useSearchHook();
+
+  console.log(searchResults);
+
+  if(!searchResults){
+    return <SearchResultsSkeleton/>
+  }
+
+  // return<SearchResultsSkeleton/>
+
 
   return (
     <div className={styles.container}>
@@ -134,18 +147,21 @@ const UserProfileListing: React.FC = () => {
         />
       </div>
       <div className={styles.userGrid}>
-        {filteredUsers.map(user => (
-          <div key={user.id} className={styles.userCard}>
-            <img src={user.profilePic} alt={`${user.firstName} ${user.lastName}`} className={styles.avatar} />
+        {searchResults.map(user => (
+            <div key={user.id} className={styles.userCard}>
+            <img 
+              src={user.profilePic || 'https://via.placeholder.com/150'} 
+              alt={`${user.firstName} ${user.lastName}`} 
+              className={styles.avatar} 
+              onError={(e) => e.currentTarget.src = 'https://avatar.iran.liara.run/public/boy'}
+            />
             <div className={styles.userInfo}>
               <h3>{`${user.firstName} ${user.lastName}`}</h3>
-             
-             
               <p>{user.currentRole}</p>
               <p>{user.currentCompany}</p>
               <div className={styles.connect}>Connect</div>
             </div>
-          </div>
+            </div>
         ))}
       </div>
     </div>

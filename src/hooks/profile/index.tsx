@@ -54,7 +54,7 @@ export const useProfileHook = () => {
         try {
             const {  email, ...rest } = values; 
 
-            const updatedValues = {...rest, id: authState.userDetails.id, profilePic :  "https://avatar.iran.liara.run/public", skills : values.skills.join(',')};
+            const updatedValues = {...rest, id: authState.userDetails.id, profilePic :  "https://avatar.iran.liara.run/public"};
             
             const response : any = await axiosInstance.put(`/users/${authState.userDetails.id}`,updatedValues);
             return response.data;

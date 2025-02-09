@@ -72,7 +72,7 @@ const ProfileForm = ({ edit, profile }: ProfileFormProps) => {
           title: profile.title,
           about: profile.about,
           username: profile.username,
-          skills: profile.skills,
+          skills: profile.skills.split(","), // Convert string to array
           country: profile.country,
           dob: "",
         });

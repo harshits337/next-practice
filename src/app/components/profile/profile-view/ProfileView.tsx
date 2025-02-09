@@ -146,7 +146,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ profile }) => {
             <p><strong>Total Experience:</strong> {profile.totalExperience} years</p>
           </div>
           <div className={styles.col}>
-            <p><strong>Skills:</strong> {profile.skills}</p>
+            <p><strong>Skills:</strong> {profile.skills.split(', ')}</p>
           </div>
         </div>
         <Button type="primary" onClick={() =>{
