@@ -1,8 +1,12 @@
+'use client'
 import ProfileView from "@/app/components/profile/profile-view/ProfileView";
+import { useProfileHook } from "@/hooks/profile";
+import { profile } from "console";
+import { useRouter } from "next/navigation";
 
-interface Params {
-  id: string;
-}
+// interface Params {
+//   id: string;
+// }
 
 const sampleProfile = {
     firstName: "John",
@@ -22,10 +26,26 @@ const sampleProfile = {
     phoneNumber: "123-456-7890",
   };
 
-export default async function MainThema(props: { params: Promise<Params> }) {
-  const params = await props.params;
-  const {id} = params;
-  console.log(id);
+// export default async function Page(props: { params: Promise<Params> }) {
+//   const params = await props.params;
+//   const {id} = params;
+//   console.log(id);
 
-  return <div><ProfileView profile={sampleProfile}/></div>;
+//   return <div><ProfileView profile={sampleProfile}/></div>;
+// }
+
+export default  function Page() {
+
+  const {profileDetails} = useProfileHook();
+  const router = useRouter();
+
+  if(profileDetails === false){
+    router.push('/profile')
+  }
+
+  
+  
+
+  console.log("profileDetails", profileDetails);
+  return ( <div><ProfileView profile={profileDetails || undefined}/></div>)
 }

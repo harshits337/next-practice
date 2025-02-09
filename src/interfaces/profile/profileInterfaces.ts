@@ -12,7 +12,7 @@ export interface ProfileValues {
     about: string;
     username: string;
     skills: string[];
-    profilePic: string;
+    profilePic?: string;
     country: string;
     phoneNumber: string;
   }

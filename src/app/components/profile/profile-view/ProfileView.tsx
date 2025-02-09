@@ -20,10 +20,74 @@ interface ProfileValues {
 }
 
 interface ProfileViewProps {
-  profile: ProfileValues;
+  profile?: ProfileValues;
 }
 
 const ProfileView: React.FC<ProfileViewProps> = ({ profile }) => {
+  if (!profile) {
+    return (
+      <div className={`${styles.profileView} ${styles.skeleton}`}>
+      <div className={styles.profileHeader}>
+        <div className={styles.skeletonTitle}></div>
+        <div className={styles.skeletonText}></div>
+      </div>
+      <div className={styles.profilePicContainer}>
+        <div className={styles.skeletonProfilePic}></div>
+      </div>
+      <div className={styles.profileInfo}>
+        <h3>Personal Information</h3>
+        <div className={styles.row}>
+        <div className={styles.col}>
+          <div className={styles.skeletonText}></div>
+        </div>
+        <div className={styles.col}>
+          <div className={styles.skeletonText}></div>
+        </div>
+        </div>
+        <div className={styles.row}>
+        <div className={styles.col}>
+          <div className={styles.skeletonText}></div>
+        </div>
+        <div className={styles.col}>
+          <div className={styles.skeletonText}></div>
+        </div>
+        </div>
+        <div className={styles.row}>
+        <div className={styles.col}>
+          <div className={styles.skeletonText}></div>
+        </div>
+        <div className={styles.col}>
+          <div className={styles.skeletonText}></div>
+        </div>
+        </div>
+        <div className={styles.row}>
+        <div className={styles.col}>
+          <div className={styles.skeletonText}></div>
+        </div>
+        </div>
+        
+        <h3>Professional Information</h3>
+        <div className={styles.row}>
+        <div className={styles.col}>
+          <div className={styles.skeletonText}></div>
+        </div>
+        <div className={styles.col}>
+          <div className={styles.skeletonText}></div>
+        </div>
+        </div>
+        <div className={styles.row}>
+        <div className={styles.col}>
+          <div className={styles.skeletonText}></div>
+        </div>
+        <div className={styles.col}>
+          <div className={styles.skeletonText}></div>
+        </div>
+        </div>
+      </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.profileView}>
       <div className={styles.profileHeader}>
@@ -79,7 +143,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ profile }) => {
             <p><strong>Total Experience:</strong> {profile.totalExperience} years</p>
           </div>
           <div className={styles.col}>
-            <p><strong>Skills:</strong> {profile.skills.join(', ')}</p>
+            <p><strong>Skills:</strong> {profile.skills}</p>
           </div>
         </div>
       </div>

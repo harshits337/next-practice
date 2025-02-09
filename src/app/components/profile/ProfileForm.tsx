@@ -1,9 +1,12 @@
 "use client";
 import { Form, Input, Button, DatePicker, Select, Upload} from "antd";
 import { useForm } from "antd/es/form/Form";
-import { useState } from "react";
+import {  useState } from "react";
 import styles from "./profile.module.css";
 import { ProfileValues } from "@/interfaces/profile/profileInterfaces";
+
+import { useProfileHook } from "@/hooks/profile";
+import { useRouter } from "next/navigation";
 const { Option } = Select;
 
   
@@ -28,12 +31,22 @@ const ProfileForm = () => {
   });
 
   const [form] = useForm();
+  const router = useRouter();
 
-
-
-  const onFinish = (values: ProfileValues) => {
+  const { createProfile, userId } = useProfileHook();
+  const onFinish = async (values: ProfileValues) => {
     console.log('Received values:', values);
+   
+    const res : any = await createProfile(values);
+    console.log("res", res);
+    if(res.status === "success"){
+      console.log("Profile created successfully");
+      router.push('/profile/'+userId);
+    }
+
   };
+ 
+
 
   return (
     <div className={styles.profileForm}>
@@ -146,13 +159,13 @@ const ProfileForm = () => {
               label="Date of Birth"
               name="dob"
               rules={[
-                {
-                  required: true,
-                  message: "DOB is required",
-                },
+              {
+                required: true,
+                message: "DOB is required",
+              },
               ]}
             >
-              <DatePicker style={{ width: '100%' }} />
+              <DatePicker style={{ width: '100%' }} disabledDate={(current) => current && current.toDate() > new Date()} />
             </Form.Item>
           </div>
 
@@ -182,6 +195,24 @@ const ProfileForm = () => {
                 {
                   required: true,
                   message: "Current Role is required",
+                },
+                {
+                    max: 50,
+                    message: "Role name should be less than 50 characters",
+                }
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          </div>
+          <div className={styles.col}>
+            <Form.Item
+              label="title"
+              name="title"
+              rules={[
+                {
+                  required: true,
+                  message: "title is required",
                 },
                 {
                     max: 50,
@@ -300,12 +331,12 @@ const ProfileForm = () => {
             <Form.Item
               label="Profile Picture"
               name="profilePic"
-              rules={[
-            {
-              required: true,
-              message: "Profile Picture is required",
-            },
-              ]}
+            //   rules={[
+            // {
+            //   required: true,
+            //   message: "Profile Picture is required",
+            // },
+            //   ]}
             >
               <Upload
             name="profilePic"
