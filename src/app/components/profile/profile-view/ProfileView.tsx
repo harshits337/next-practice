@@ -1,5 +1,7 @@
 import React from 'react';
 import styles from './page.module.css';
+import { Button } from 'antd';
+import { useRouter } from 'next/navigation';
 
 interface ProfileValues {
   firstName: string;
@@ -24,6 +26,7 @@ interface ProfileViewProps {
 }
 
 const ProfileView: React.FC<ProfileViewProps> = ({ profile }) => {
+  const router = useRouter();
   if (!profile) {
     return (
       <div className={`${styles.profileView} ${styles.skeleton}`}>
@@ -32,7 +35,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({ profile }) => {
         <div className={styles.skeletonText}></div>
       </div>
       <div className={styles.profilePicContainer}>
-        <div className={styles.skeletonProfilePic}></div>
+        <div className={styles.ssadsadsadasdasdasdkeletonProfilePic}></div>
       </div>
       <div className={styles.profileInfo}>
         <h3>Personal Information</h3>
@@ -146,7 +149,11 @@ const ProfileView: React.FC<ProfileViewProps> = ({ profile }) => {
             <p><strong>Skills:</strong> {profile.skills}</p>
           </div>
         </div>
+        <Button type="primary" onClick={() =>{
+          router.push('/profile/edit')
+        }}>Edit Profile</Button>
       </div>
+      
     </div>
   );
 };

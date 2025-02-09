@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import axiosInstance from "@/app/components/axios";
 import { ProfileValues } from "@/interfaces/profile/profileInterfaces";
+import { profile } from "console";
 import { get } from "http";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -49,6 +50,19 @@ export const useProfileHook = () => {
         }
     }
 
+    const updateProfile = async (values : ProfileValues) => {
+        try {
+            const {  email, ...rest } = values; 
+
+            const updatedValues = {...rest, id: authState.userDetails.id, profilePic :  "https://avatar.iran.liara.run/public", skills : values.skills.join(',')};
+            
+            const response : any = await axiosInstance.put(`/users/${authState.userDetails.id}`,updatedValues);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
     const getProfileDetails = async () => {
         try {
@@ -64,6 +78,6 @@ export const useProfileHook = () => {
 
 
 
-    return { profileDetails, createProfile,userId};
+    return { profileDetails, createProfile,userId, updateProfile};
 
 }
