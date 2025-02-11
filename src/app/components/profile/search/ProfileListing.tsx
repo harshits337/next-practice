@@ -5,6 +5,7 @@ import styles from './page.module.css';
 // import { ProfileValues } from '@/interfaces/profile/profileInterfaces';
 import { useSearchHook } from '@/hooks/search';
 import SearchResultsSkeleton from '../../search/skeleton/results';
+import { Button } from 'antd';
 
 // Mock data based on the ProfileValues interface
 
@@ -15,12 +16,16 @@ const UserProfileListing: React.FC = () => {
   // const filteredUsers = mockUsers.filter(user =>
   //   `${user.firstName} ${user.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
   // );
-  const {searchResults , searchProfiles} = useSearchHook();
+  const {searchResults , searchProfilesWithFilters ,endData} = useSearchHook();
 
   console.log(searchResults);
 
   const observerRef = useRef<IntersectionObserver | null>(null);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
+
+  const handleSearch = async ()=>{
+    searchProfilesWithFilters(searchTerm);
+  }
 
   useEffect(() => {
     if (observerRef.current) observerRef.current.disconnect();
@@ -31,10 +36,8 @@ const UserProfileListing: React.FC = () => {
 
         setLoading(true);
 
-        searchProfiles(searchTerm).finally(() => {setLoading(false)});
-        
-
-        
+        searchProfilesWithFilters(searchTerm).finally(() => {setLoading(false)});
+      
         
       }
     });
@@ -44,7 +47,7 @@ const UserProfileListing: React.FC = () => {
     return () => {
       if (observerRef.current) observerRef.current.disconnect();
     };
-  }, [searchProfiles, loading]);
+  }, [searchProfilesWithFilters, loading]);
 
 
 
@@ -66,6 +69,8 @@ const UserProfileListing: React.FC = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
+
+      <Button type='primary' onClick={handleSearch}>Search</Button>
       <div className={styles.userGrid} 
       >
         {searchResults.map(user => (
@@ -84,8 +89,9 @@ const UserProfileListing: React.FC = () => {
             </div>
             </div>
         ))}
+                {!loading && !endData && <div ref={loadMoreRef} className={styles.loadMore}>Load More</div>}
       </div>
-        {!loading && <div ref={loadMoreRef} className={styles.loadMore}>Load More</div>}
+
     </div>
   );
 };

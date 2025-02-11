@@ -4,15 +4,18 @@ import styles from "./SideNav.module.css";
 import React from "react";
 import { BarChartOutlined, PlusCircleOutlined, PoweroffOutlined } from "@ant-design/icons";
 import { useAuth } from "@/hooks/auth/auth";
+import { useSelector } from "react-redux";
 const SideNav = () => {
   const {logout }= useAuth();
   const handleLogout = () => {
     logout();
   }
+
+  const authState = useSelector((state : any) => state.auth);
   const links = [
     {
-      name: "My Tasks",
-      url: "/dashboard",
+      name: "Profile",
+      url: `/profile/${authState?.userDetails?.id}`,
       icon: (
         <React.Fragment>
           <PlusCircleOutlined />
@@ -20,8 +23,8 @@ const SideNav = () => {
       ),
     },
     {
-      name: "Reports",
-      url: "/reports",
+      name: "Search",
+      url: "/search",
       icon: (
         <React.Fragment>
           <BarChartOutlined />
